@@ -1,7 +1,9 @@
 '''
-Given a GeoGuessr map URL (e.g. https://www.geoguessr.com/game/5sXkq4e32OvHU4rf)
-take a number of screenshots each one step further down the road and rotated ~90 degrees.
-Usage: "python file_name.py https://www.geoguessr.com/game/5sXkq4e32OvHU4rf"
+Given a GeoGuessr map URL take a number of screenshots each one step further down the road and rotated ~90 degrees.
+You must have a chromedriver installed to use Selenium webdriver. This can be downloaded from: https://chromedriver.chromium.org/downloads
+You must have a geonames account to use geopy for reverseGeolocation. You can make an account here: https://www.geonames.org/login
+Then just fill in the fields below and run the script!
+Note: When running the script would crash after 500-600 iterations. This was usually either due to GeoGuessr Bot detection or automatic sign outs.
 '''
 from selenium import webdriver
 import time
@@ -77,7 +79,7 @@ def guess():
     time.sleep(2)
 
 def url_to_map(latitude, longitude):
-    geo = GeoNames(username='calamaricheese')
+    geo = GeoNames(username='YOUR ARCGIS USERNAME') #https://www.geonames.org/login
     location = geo.reverse(query=(latitude, longitude), exactly_one=False, timeout=5)
     location_name = location[0]
     location_country = str(location_name).split(',')[-1].strip()
@@ -104,8 +106,8 @@ for i in range(num_iterations):
 
     # log in with your Geoguessr user. Chrome must be closed!
     chrome_options = Options()
-    chrome_options.add_argument("--user-data-dir=C:/Users/rohan/AppData/Local/Google/Chrome/User Data")
-    driver = webdriver.Chrome('C:/Users/rohan/Downloads/chromedriver.exe', options=chrome_options)
+    chrome_options.add_argument("YOUR CHROME OPTIONS DIRECTORY") #Typically --user-data-dir=C:/Users/XXXXXX/AppData/Local/Google/Chrome/User Data
+    driver = webdriver.Chrome('PATH TO YOUR CHROMEDRIVER.EXE', options=chrome_options) #https://chromedriver.chromium.org/downloads
     driver.get(geo_guessr_map)
 
     # let JS etc. load
